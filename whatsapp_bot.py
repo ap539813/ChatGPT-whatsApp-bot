@@ -92,7 +92,8 @@ if __name__ == "__main__":
             if (current_time - timestamp < timedelta(seconds=60)) and (last_message_text != message_text) and (my_last_message != message_text):
                 print(current_time - timestamp)
                 print("messaging")
-                my_message = chat_response(message_text).replace('\n', r'[d(lshift)]\n[u(lshift)]')
+                my_message = chat_response(message_text).replace('\n', r'''[d(lshift)]
+                [u(lshift)]''')
                 msg_box = driver.find_elements(By.CLASS_NAME, '_3Uu1_')[0]
                 msg_box.send_keys(my_message + Keys.ENTER)
                 last_message_text = message_text
