@@ -40,6 +40,9 @@ messages = [
 
 del data
 
+def clean_text(msg):
+    return msg.replace('\n', '').replace('\ue008\ue007\ue008', '').replace('`', '').replace('(Keys.SHIFT)+(Keys.ENTER)+(Keys.SHIFT)', '')
+
 def chat_response(input_message):
     global messages
     if input_message:
@@ -75,7 +78,6 @@ if __name__ == "__main__":
             # Get the message text
             message_text_element = last_message.find_element(By.CSS_SELECTOR, "span._11JPr.selectable-text.copyable-text")
             message_text = message_text_element.text
-            print(message_text)
 
             # Convert the timestamp to a datetime object
             timestamp = datetime.strptime(timestamp_str, "%I:%M %p")
@@ -87,17 +89,16 @@ if __name__ == "__main__":
             current_time = datetime.now()
 
             
-            print(current_time - timestamp)
+            # print((current_time - timestamp), repr(last_message_text), repr(my_last_message), repr(message_text))
             # If the message was sent less than 60 seconds ago, respond to it
-            if (current_time - timestamp < timedelta(seconds=60)) and (last_message_text != message_text) and (my_last_message != message_text):
-                print(current_time - timestamp)
+            if (current_time - timestamp < timedelta(seconds=70)) and (clean_text(last_message_text)[:200] != clean_text(message_text)[:200]) and (clean_text(my_last_message)[:200] != clean_text(message_text)[:200]):
                 print("messaging")
-                my_message = chat_response(message_text).replace('\n', r'''[d(lshift)]
-                [u(lshift)]''')
+                my_message = chat_response(message_text).replace('\n', (Keys.SHIFT)+(Keys.ENTER)+(Keys.SHIFT))
+                # my_message = 'Hi this is the message I want to send \n but this shouldnt go in the next line'.replace('\n', (Keys.SHIFT)+(Keys.ENTER)+(Keys.SHIFT))
                 msg_box = driver.find_elements(By.CLASS_NAME, '_3Uu1_')[0]
                 msg_box.send_keys(my_message + Keys.ENTER)
-                last_message_text = message_text
-                my_last_message = my_message
+                last_message_text = clean_text(message_text)
+                my_last_message = clean_text(my_message)
         except Exception as e:
             print("An error occurred: ", e)
             continue
