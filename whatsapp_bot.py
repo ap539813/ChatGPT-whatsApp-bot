@@ -93,8 +93,8 @@ if __name__ == "__main__":
             # If the message was sent less than 60 seconds ago, respond to it
             if (current_time - timestamp < timedelta(seconds=70)) and (clean_text(last_message_text)[:200] != clean_text(message_text)[:200]) and (clean_text(my_last_message)[:200] != clean_text(message_text)[:200]):
                 print("messaging")
-                my_message = chat_response(message_text).replace('\n', (Keys.SHIFT)+(Keys.ENTER)+(Keys.SHIFT))
-                # my_message = 'Hi this is the message I want to send \n but this shouldnt go in the next line'.replace('\n', (Keys.SHIFT)+(Keys.ENTER)+(Keys.SHIFT))
+                # my_message = chat_response(message_text).replace('\n', (Keys.SHIFT)+(Keys.ENTER)+(Keys.SHIFT))
+                my_message = 'Hi this is the message I want to send \n😁 but this shouldnt go in the next line'.replace('\n', (Keys.SHIFT)+(Keys.ENTER)+(Keys.SHIFT))
                 msg_box = driver.find_elements(By.CLASS_NAME, '_3Uu1_')[0]
                 msg_box.send_keys(my_message + Keys.ENTER)
                 last_message_text = clean_text(message_text)
