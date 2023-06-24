@@ -3,16 +3,28 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
+# from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
+# from webdriver_manager.chrome import ChromeDriverManager
 import time
 from datetime import datetime, timedelta
 
 import json
 import openai
 
+import os
+
 # Set the path of the chromedriver.exe
-driver = webdriver.Chrome()
+
+
+DEFAULT_USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.122 Safari/537.36'
+options = Options()
+options.add_argument('--headless')
+options.add_argument('--window-size=1920x1080')
+options.add_argument("user-data-dir=./browser_settings")
+options.add_argument("--start-maximized")
+options.add_argument('--user-agent=' + DEFAULT_USER_AGENT)
+driver = webdriver.Chrome(options = options)
 
 # Open WhatsApp
 driver.get('https://web.whatsapp.com/') 
@@ -35,7 +47,7 @@ with open('secrets.json') as f:
 openai.api_key = data['api_key']
 
 messages = [
-    {"role": "system", "content": "Personal assistsnt for queries, I am a software developer, python developer, data science and machine learning developer, I also take classes on these topics"},
+    {"role": "system", "content": "Personal assistsnt for queries, My name is Ankush Pandey, I am a software developer, python developer, data science and machine learning developer, I also take classes on these topics"},
 ]
 
 del data
